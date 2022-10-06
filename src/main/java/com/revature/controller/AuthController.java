@@ -15,11 +15,14 @@ public class AuthController {
         app.post("/login", (ctx) -> {
             User credentials = ctx.bodyAsClass(User.class);
 
+
             try {
                 User user = authService.login(credentials.getUsername(), credentials.getPassword());
 
                 HttpSession session = ctx.req.getSession(); // the cookie
                 session.setAttribute("user", user);
+
+                ctx.result("welcome" + " " + user.getUsername());
             } catch (InvalidLoginException e){
                 ctx.status(400);
                 ctx.result(e.getMessage());
@@ -27,7 +30,11 @@ public class AuthController {
         });
 
         app.post("/logout", (ctx) -> {
+            HttpSession session = ctx.req.getSession(); // the cookie
+            User user = (User) session.getAttribute("user");
+
             ctx.req.getSession().invalidate(); // delete cookie
+            ctx.result("Goodbye" + " " + user.getUsername());
         });
 
        //register
