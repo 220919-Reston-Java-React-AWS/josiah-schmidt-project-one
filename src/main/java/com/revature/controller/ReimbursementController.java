@@ -1,5 +1,6 @@
 package com.revature.controller;
 
+import com.revature.exception.AmountMustBeGreaterThan0Exception;
 import com.revature.exception.ReimbursementAlreadyUpdatedException;
 import com.revature.exception.ReimbursementNotFoundException;
 import com.revature.model.Reimbursement;
@@ -101,6 +102,21 @@ public class ReimbursementController {
             } else {
                 ctx.result("You are not logged in!");
                 ctx.status(401);
+            }
+        });
+
+        //Reimbursement ticket
+        app.post("/users/{userId}/reimbursements", (ctx) -> {
+            Reimbursement reimbursementToAdd = ctx.bodyAsClass(Reimbursement.class);
+
+            try {
+                reimbursementToAdd = reimbursementService.addReimbursement(reimbursementToAdd);
+
+                ctx.json(reimbursementToAdd);
+                ctx.status(201);
+            } catch (AmountMustBeGreaterThan0Exception e) {
+                ctx.result(e.getMessage());
+                ctx.status(400);
             }
         });
     }

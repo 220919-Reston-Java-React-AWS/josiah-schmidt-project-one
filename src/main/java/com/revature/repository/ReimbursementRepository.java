@@ -112,9 +112,6 @@ public class ReimbursementRepository {
         }
     }
 
-
-
-
     //reimbursement request sent by employee
     public Reimbursement addReimbursement(Reimbursement reimbursement) throws SQLException {
 
