@@ -17,7 +17,7 @@ create table users (
 create table reimbursements (
 	id SERIAL primary key,
 	reimbursement_reason VARCHAR(50) not null,
-	amount INTEGER check (amount >= 0),
+	amount INTEGER check (amount >= 0),  -- try to use numeric, then switch the java to double
 	status VARCHAR(20) default 'pending',
 	employee_id INTEGER references users(id) not NULL,
 	financial_Manager_id INTEGER references users(id)
@@ -47,10 +47,7 @@ select * from role;
 select * from users;
 select * from reimbursements;
 
-
-
-
-
+select * from reimbursements where status = 'pending'
 
 
 

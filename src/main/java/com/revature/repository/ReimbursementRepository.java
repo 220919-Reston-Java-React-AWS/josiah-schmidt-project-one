@@ -15,7 +15,7 @@ public class ReimbursementRepository {
 
             List<Reimbursement> reimbursements = new ArrayList<>();
 
-            String sql = "SELECT * FROM reimbursements";
+            String sql = "select * from reimbursements where status = 'pending'";
 
             Statement stmt = connectionObject.createStatement();
             ResultSet rs = stmt.executeQuery(sql);
@@ -107,7 +107,7 @@ public class ReimbursementRepository {
 
             int numberOfRecordsUpdated =pstmt.executeUpdate();
 
-            return numberOfRecordsUpdated ==1;
+            return numberOfRecordsUpdated == 1;
 
         }
     }
