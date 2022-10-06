@@ -130,7 +130,7 @@ public class ReimbursementRepository {
             rs.next();
             int id = rs.getInt(1);
 
-            return new Reimbursement(id, reimbursement.getReimbursementReason(), reimbursement.getAmount(), reimbursement.getStatus(), reimbursement.getEmployeeId(), reimbursement.getFinancialManagerId());
+            return new Reimbursement(id, reimbursement.getReimbursementReason(), reimbursement.getAmount(), "pending", reimbursement.getEmployeeId(), reimbursement.getFinancialManagerId());
         }
     }
 }

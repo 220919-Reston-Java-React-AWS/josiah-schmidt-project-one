@@ -105,20 +105,43 @@ public class ReimbursementController {
             }
         });
 
-        //Reimbursement ticket
+        //Reimbursement request
         app.post("/users/{userId}/reimbursements", (ctx) -> {
             Reimbursement reimbursementToAdd = ctx.bodyAsClass(Reimbursement.class);
 
-            try {
-                reimbursementToAdd = reimbursementService.addReimbursement(reimbursementToAdd);
+            HttpSession httpSession = ctx.req.getSession();
 
-                ctx.json(reimbursementToAdd);
-                ctx.status(201);
-            } catch (AmountMustBeGreaterThan0Exception e) {
-                ctx.result(e.getMessage());
-                ctx.status(400);
+            User user = (User) httpSession.getAttribute("user");
+
+            if (user != null) { // Check if logged in
+                if (user.getRoleId() == 1) {
+                    // Check if user is who they say they are
+                    int userId = Integer.parseInt(ctx.pathParam("userId"));
+                    if (user.getId() == userId) {
+                        try {
+                            reimbursementToAdd.setEmployeeId(user.getId());
+                            reimbursementToAdd = reimbursementService.addReimbursement(reimbursementToAdd);
+
+
+
+                            ctx.json(reimbursementToAdd);
+                            ctx.status(201);
+                        } catch (AmountMustBeGreaterThan0Exception e) {
+                            ctx.result(e.getMessage());
+                            ctx.status(400);
+                        }
+                    } else {
+                        ctx.result("You are not logged in as the user you are trying to submit reimbursements for");
+                        ctx.status(401);
+                    }
+                } else {
+                    ctx.result("You are logged in, but you're not an employee!");
+                    ctx.status(401);
+                }
+            } else {
+                ctx.result("You are not logged in!");
+                ctx.status(401);
             }
         });
     }
-
 }
