@@ -2,6 +2,7 @@ package com.revature.service;
 
 
 import com.revature.exception.AmountMustBeGreaterThan0Exception;
+import com.revature.exception.ImNotBillGatesException;
 import com.revature.exception.ReimbursementAlreadyUpdatedException;
 import com.revature.exception.ReimbursementNotFoundException;
 import com.revature.model.Reimbursement;
@@ -51,11 +52,14 @@ public class ReimbursementService {
         return reimbursementRepository.updateReimbursement(reimbursementId, status, financialManagerId);
     }
 
-    public Reimbursement addReimbursement(Reimbursement reimbursement) throws AmountMustBeGreaterThan0Exception, SQLException {
+    public Reimbursement addReimbursement(Reimbursement reimbursement) throws AmountMustBeGreaterThan0Exception, ImNotBillGatesException, SQLException {
         if (reimbursement.getAmount() <= 0) {
             throw new AmountMustBeGreaterThan0Exception("The amount you request must be greater than 0");
         }
 
+        if (reimbursement.getAmount() >= 9999998){
+            throw new ImNotBillGatesException("Money doesn't grow on trees");
+        }
         Reimbursement addReimbursement = reimbursementRepository.addReimbursement(reimbursement);
 
         return addReimbursement;

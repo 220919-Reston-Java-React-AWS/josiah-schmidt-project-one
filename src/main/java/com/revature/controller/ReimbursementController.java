@@ -1,6 +1,7 @@
 package com.revature.controller;
 
 import com.revature.exception.AmountMustBeGreaterThan0Exception;
+import com.revature.exception.ImNotBillGatesException;
 import com.revature.exception.ReimbursementAlreadyUpdatedException;
 import com.revature.exception.ReimbursementNotFoundException;
 import com.revature.model.Reimbursement;
@@ -127,6 +128,9 @@ public class ReimbursementController {
                             ctx.json(reimbursementToAdd);
                             ctx.status(201);
                         } catch (AmountMustBeGreaterThan0Exception e) {
+                            ctx.result(e.getMessage());
+                            ctx.status(400);
+                        } catch (ImNotBillGatesException e) {
                             ctx.result(e.getMessage());
                             ctx.status(400);
                         }

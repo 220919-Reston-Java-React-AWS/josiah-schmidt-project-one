@@ -1,5 +1,6 @@
 package com.revature.repository;
 
+import com.revature.exception.ImNotBillGatesException;
 import com.revature.model.Reimbursement;
 import com.revature.model.User;
 
