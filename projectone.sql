@@ -30,24 +30,15 @@ values
 
 insert into users (username, password, role_id)
 values
-('john_doe', 'password123', 1), 
-('bach_tran', 'pass12345', 2),
-('billy', '1234', 1),
-('jane_doe', 'tx123', 1); 
-
-
-insert into reimbursements (reimbursement_reason, amount, employee_id)
-values 
-('I need money', 200, 1), -- belongs to John
-('Need cash now', 300, 1), -- belongs to John
-('please', 600, 3); -- belongs to Jane
+('josiah_schmidt', 'pass12345', 2)
+; 
 
 
 select * from role;
 select * from users;
 select * from reimbursements;
 
-select * from reimbursements where status = 'pending'
+
 
 
 
